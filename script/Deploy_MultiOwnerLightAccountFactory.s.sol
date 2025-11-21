@@ -21,30 +21,36 @@ contract Deploy_MultiOwnerLightAccountFactory is Script {
     function run() public {
         vm.startBroadcast();
 
-        // Init code hash check
-        bytes32 initCodeHash =
-            keccak256(abi.encodePacked(type(MultiOwnerLightAccountFactory).creationCode, abi.encode(owner, entryPoint)));
-
-        if (initCodeHash != 0x69e0f4a2942425638860e9982bd32f08941a082681e53208de970099f18252cc) {
-            revert InitCodeHashMismatch(initCodeHash);
-        }
+        // Finance District custom salt
+        bytes32 fdSalt = 0x000000000000000000000000000000000000000046696e616e636544697374; // "FinanceDist" in hex
 
         console.log("********************************");
         console.log("******** Deploy Inputs *********");
         console.log("********************************");
         console.log("Owner:", owner);
         console.log("Entrypoint:", address(entryPoint));
+        console.log("Salt:", vm.toString(fdSalt));
         console.log();
+
+        // Calculate expected address for transparency
+        bytes32 initCodeHash =
+            keccak256(abi.encodePacked(type(MultiOwnerLightAccountFactory).creationCode, abi.encode(owner, entryPoint)));
+        address expectedAddress = vm.computeCreate2Address(fdSalt, initCodeHash);
+
         console.log("********************************");
         console.log("******** Deploying.... *********");
         console.log("********************************");
+        console.log("Expected factory address:", expectedAddress);
+        console.log();
 
         MultiOwnerLightAccountFactory factory = new MultiOwnerLightAccountFactory{
-            salt: 0x0000000000000000000000000000000000000000bb3ab048b3f4ef2620ea0163
+            salt: fdSalt
         }(owner, entryPoint);
 
-        // Deployed address check
-        if (address(factory) != 0x000000000019d2Ee9F2729A65AfE20bb0020AefC) {
+        console.log("Actual factory address:", address(factory));
+        
+        // Verify addresses match
+        if (address(factory) != expectedAddress) {
             revert DeployedAddressMismatch(address(factory));
         }
 
