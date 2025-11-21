@@ -5,6 +5,7 @@ This guide covers deploying the Light Account Factory to test and production net
 ## Prerequisites
 
 1. **Fund your deployer address** with native tokens:
+
    - Base Sepolia: Get ETH from [Base Sepolia Faucet](https://www.coinbase.com/faucets/base-ethereum-goerli-faucet)
    - BSC Testnet: Get BNB from [BSC Testnet Faucet](https://testnet.bnbchain.org/faucet-smart)
    - For mainnet: Ensure sufficient funds for gas + staking (0.1 ETH/BNB recommended)
@@ -131,6 +132,7 @@ forge script script/Deploy_LightAccountFactory_Test.s.sol \
 ### 1. Verify Deployment
 
 Check the deployment output for:
+
 - ✅ Factory address
 - ✅ Implementation address
 - ✅ Transaction hash
@@ -138,6 +140,7 @@ Check the deployment output for:
 ### 2. Verify on Block Explorer
 
 Visit the explorer and confirm:
+
 - Base Sepolia: https://sepolia.basescan.org/address/YOUR_FACTORY_ADDRESS
 - BSC Testnet: https://testnet.bscscan.com/address/YOUR_FACTORY_ADDRESS
 - BSC Mainnet: https://bscscan.com/address/YOUR_FACTORY_ADDRESS
@@ -173,12 +176,12 @@ forge script script/Deploy_LightAccountFactory_BSC.s.sol \
 
 ### Supported Networks
 
-| Network       | Chain ID | EntryPoint (v0.7)                          | Native Token |
-|---------------|----------|---------------------------------------------|--------------|
-| Base Sepolia  | 84532    | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | ETH          |
-| Base Mainnet  | 8453     | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | ETH          |
-| BSC Testnet   | 97       | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | BNB          |
-| BSC Mainnet   | 56       | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | BNB          |
+| Network      | Chain ID | EntryPoint (v0.7)                          | Native Token |
+| ------------ | -------- | ------------------------------------------ | ------------ |
+| Base Sepolia | 84532    | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | ETH          |
+| Base Mainnet | 8453     | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | ETH          |
+| BSC Testnet  | 97       | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | BNB          |
+| BSC Mainnet  | 56       | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | BNB          |
 
 ### RPC Endpoints
 
@@ -197,13 +200,17 @@ BSC_MAINNET_RPC_URL=https://bsc-dataseed1.binance.org
 ## Troubleshooting
 
 ### Issue: "Insufficient funds"
+
 **Solution:** Fund your deployer address with native tokens from faucet (testnet) or transfer funds (mainnet)
 
 ### Issue: "Init code hash mismatch"
+
 **Solution:** Use the custom deployment scripts (`Deploy_LightAccountFactory_Test.s.sol` or `Deploy_LightAccountFactory_BSC.s.sol`) instead of the deterministic ones
 
 ### Issue: "Verification failed"
-**Solution:** 
+
+**Solution:**
+
 1. Check your API key is valid
 2. Wait a few moments and try manual verification:
    ```bash
@@ -214,6 +221,7 @@ BSC_MAINNET_RPC_URL=https://bsc-dataseed1.binance.org
    ```
 
 ### Issue: "Nonce too high/low"
+
 **Solution:** Check your deployer address transactions and ensure nonce is correct
 
 ## Security Checklist
@@ -231,14 +239,14 @@ Before mainnet deployment:
 
 ## Gas Estimates
 
-| Network       | Deployment | Account Creation | Stake Addition |
-|---------------|------------|------------------|----------------|
-| Base Sepolia  | 0.000025   | 0.000015         | 0.000010       |
-| Base Mainnet  | 0.000025   | 0.000015         | 0.000010       |
-| BSC Testnet   | 0.02       | 0.001            | 0.001          |
-| BSC Mainnet   | 0.02       | 0.001            | 0.001          |
+| Network      | Deployment | Account Creation | Stake Addition |
+| ------------ | ---------- | ---------------- | -------------- |
+| Base Sepolia | 0.000025   | 0.000015         | 0.000010       |
+| Base Mainnet | 0.000025   | 0.000015         | 0.000010       |
+| BSC Testnet  | 0.02       | 0.001            | 0.001          |
+| BSC Mainnet  | 0.02       | 0.001            | 0.001          |
 
-*Values in native tokens (ETH/BNB)*
+_Values in native tokens (ETH/BNB)_
 
 ## Support
 

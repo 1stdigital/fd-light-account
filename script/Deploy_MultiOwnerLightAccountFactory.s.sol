@@ -21,11 +21,14 @@ contract Deploy_MultiOwnerLightAccountFactory is Script {
     function run() public {
         vm.startBroadcast();
 
+        // Allow custom owner deployments to skip validation
+        bool customOwnerDeployment = vm.envOr("CUSTOM_OWNER_DEPLOYMENT", false);
+
         // Init code hash check
         bytes32 initCodeHash =
             keccak256(abi.encodePacked(type(MultiOwnerLightAccountFactory).creationCode, abi.encode(owner, entryPoint)));
 
-        if (initCodeHash != 0x69e0f4a2942425638860e9982bd32f08941a082681e53208de970099f18252cc) {
+        if (!customOwnerDeployment && initCodeHash != 0x69e0f4a2942425638860e9982bd32f08941a082681e53208de970099f18252cc) {
             revert InitCodeHashMismatch(initCodeHash);
         }
 
@@ -44,7 +47,7 @@ contract Deploy_MultiOwnerLightAccountFactory is Script {
         }(owner, entryPoint);
 
         // Deployed address check
-        if (address(factory) != 0x000000000019d2Ee9F2729A65AfE20bb0020AefC) {
+        if (!customOwnerDeployment && address(factory) != 0x000000000019d2Ee9F2729A65AfE20bb0020AefC) {
             revert DeployedAddressMismatch(address(factory));
         }
 
@@ -62,11 +65,13 @@ contract Deploy_MultiOwnerLightAccountFactory is Script {
         uint256 requiredStakeAmount = vm.envUint("REQUIRED_STAKE_AMOUNT");
         uint256 currentStakedAmount = entryPoint.getDepositInfo(factoryAddr).stake;
         uint256 stakeAmount = requiredStakeAmount - currentStakedAmount;
-        MultiOwnerLightAccountFactory(payable(factoryAddr)).addStake{value: stakeAmount}(unstakeDelaySec, stakeAmount);
-        console.log("******** Add Stake Verify *********");
-        console.log("Staked factory: ", factoryAddr);
-        console.log("Stake amount: ", entryPoint.getDepositInfo(factoryAddr).stake);
-        console.log("Unstake delay: ", entryPoint.getDepositInfo(factoryAddr).unstakeDelaySec);
-        console.log("******** Stake Verify Done *********");
+        if (stakeAmount > 0) {
+            MultiOwnerLightAccountFactory(payable(factoryAddr)).addStake{value: stakeAmount}(unstakeDelaySec, stakeAmount);
+            console.log("******** Add Stake Verify *********");
+            console.log("Staked factory: ", factoryAddr);
+            console.log("Stake amount: ", entryPoint.getDepositInfo(factoryAddr).stake);
+            console.log("Unstake delay: ", entryPoint.getDepositInfo(factoryAddr).unstakeDelaySec);
+            console.log("******** Stake Verify Done *********");
+        }
     }
 }

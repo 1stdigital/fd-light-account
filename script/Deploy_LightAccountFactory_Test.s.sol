@@ -52,12 +52,12 @@ contract Deploy_LightAccountFactory_Test is Script {
         uint256 requiredStakeAmount = vm.envUint("REQUIRED_STAKE_AMOUNT");
         uint256 currentStakedAmount = entryPoint.getDepositInfo(factoryAddr).stake;
         uint256 stakeAmount = requiredStakeAmount - currentStakedAmount;
-        
+
         console.log("******** Adding Stake *********");
         console.log("Stake amount needed:", stakeAmount);
-        
+
         LightAccountFactory(payable(factoryAddr)).addStake{value: stakeAmount}(unstakeDelaySec, stakeAmount);
-        
+
         console.log("******** Add Stake Verify *********");
         console.log("Staked factory: ", factoryAddr);
         console.log("Stake amount: ", entryPoint.getDepositInfo(factoryAddr).stake);

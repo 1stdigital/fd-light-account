@@ -25,7 +25,10 @@ contract Deploy_LightAccountFactory is Script {
         bytes32 initCodeHash =
             keccak256(abi.encodePacked(type(LightAccountFactory).creationCode, abi.encode(owner, entryPoint)));
 
-        if (initCodeHash != 0xfad339962af095db6ac3163c8504f102c28ae099db994101fbbca18ad0e3005c) {
+        // Allow custom owner deployments if CUSTOM_OWNER_DEPLOYMENT env var is set
+        bool customOwnerDeployment = vm.envOr("CUSTOM_OWNER_DEPLOYMENT", false);
+        
+        if (!customOwnerDeployment && initCodeHash != 0xfad339962af095db6ac3163c8504f102c28ae099db994101fbbca18ad0e3005c) {
             revert InitCodeHashMismatch(initCodeHash);
         }
 
@@ -44,7 +47,7 @@ contract Deploy_LightAccountFactory is Script {
         }(owner, entryPoint);
 
         // Deployed address check
-        if (address(factory) != 0x0000000000400CdFef5E2714E63d8040b700BC24) {
+        if (!customOwnerDeployment && address(factory) != 0x0000000000400CdFef5E2714E63d8040b700BC24) {
             revert DeployedAddressMismatch(address(factory));
         }
 
@@ -62,11 +65,16 @@ contract Deploy_LightAccountFactory is Script {
         uint256 requiredStakeAmount = vm.envUint("REQUIRED_STAKE_AMOUNT");
         uint256 currentStakedAmount = entryPoint.getDepositInfo(factoryAddr).stake;
         uint256 stakeAmount = requiredStakeAmount - currentStakedAmount;
-        LightAccountFactory(payable(factoryAddr)).addStake{value: stakeAmount}(unstakeDelaySec, stakeAmount);
-        console.log("******** Add Stake Verify *********");
-        console.log("Staked factory: ", factoryAddr);
-        console.log("Stake amount: ", entryPoint.getDepositInfo(factoryAddr).stake);
-        console.log("Unstake delay: ", entryPoint.getDepositInfo(factoryAddr).unstakeDelaySec);
-        console.log("******** Stake Verify Done *********");
+        
+        if (stakeAmount > 0) {
+            LightAccountFactory(payable(factoryAddr)).addStake{value: stakeAmount}(unstakeDelaySec, stakeAmount);
+            console.log("******** Add Stake Verify *********");
+            console.log("Staked factory: ", factoryAddr);
+            console.log("Stake amount: ", entryPoint.getDepositInfo(factoryAddr).stake);
+            console.log("Unstake delay: ", entryPoint.getDepositInfo(factoryAddr).unstakeDelaySec);
+            console.log("******** Stake Verify Done *********");
+        } else {
+            console.log("******** Staking Skipped (REQUIRED_STAKE_AMOUNT=0) *********");
+        }
     }
 }

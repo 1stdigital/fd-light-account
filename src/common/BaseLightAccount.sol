@@ -36,18 +36,20 @@ abstract contract BaseLightAccount is BaseAccount, TokenCallbackHandler, UUPSUpg
 
     /// @notice Execute a transaction. This may only be called directly by an owner or by the entry point via a user
     /// operation signed by an owner.
+    /// @dev Made payable to allow receiving native tokens (BNB/ETH) during transaction execution.
     /// @param dest The target of the transaction.
     /// @param value The amount of wei sent in the transaction.
     /// @param func The transaction's calldata.
-    function execute(address dest, uint256 value, bytes calldata func) external virtual onlyAuthorized {
+    function execute(address dest, uint256 value, bytes calldata func) external payable virtual onlyAuthorized {
         _call(dest, value, func);
     }
 
     /// @notice Execute a sequence of transactions.
+    /// @dev Made payable to allow receiving native tokens (BNB/ETH) during transaction execution.
     /// @param dest An array of the targets for each transaction in the sequence.
     /// @param func An array of calldata for each transaction in the sequence. Must be the same length as `dest`, with
     /// corresponding elements representing the parameters for each transaction.
-    function executeBatch(address[] calldata dest, bytes[] calldata func) external virtual onlyAuthorized {
+    function executeBatch(address[] calldata dest, bytes[] calldata func) external payable virtual onlyAuthorized {
         if (dest.length != func.length) {
             revert ArrayLengthMismatch();
         }
@@ -58,12 +60,14 @@ abstract contract BaseLightAccount is BaseAccount, TokenCallbackHandler, UUPSUpg
     }
 
     /// @notice Execute a sequence of transactions.
+    /// @dev Made payable to allow receiving native tokens (BNB/ETH) during transaction execution.
     /// @param dest An array of the targets for each transaction in the sequence.
     /// @param value An array of value for each transaction in the sequence.
     /// @param func An array of calldata for each transaction in the sequence. Must be the same length as `dest`, with
     /// corresponding elements representing the parameters for each transaction.
     function executeBatch(address[] calldata dest, uint256[] calldata value, bytes[] calldata func)
         external
+        payable
         virtual
         onlyAuthorized
     {

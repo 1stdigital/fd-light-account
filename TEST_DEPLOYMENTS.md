@@ -287,18 +287,18 @@ cast call $FACTORY_BSC_MAINNET \
 
 ## Expected Results Summary
 
-| Test | Expected Result | Critical? |
-|------|----------------|-----------|
-| Factory Owner | Your OWNER address | ✅ Yes |
-| EntryPoint | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | ✅ Yes |
-| Implementation | Non-zero address | ✅ Yes |
-| Account Prediction | Consistent address | ✅ Yes |
-| Account Creation | Success, gas ~2.1M | ✅ Yes |
-| Account Owner | Your OWNER address | ✅ Yes |
-| Idempotency | Success, gas ~50K | ✅ Yes |
-| Different Salt | Different address | ✅ Yes |
-| Native Transfer | Success | ⚠️ Important |
-| Execute Function | Success | ⚠️ Important |
+| Test               | Expected Result                            | Critical?    |
+| ------------------ | ------------------------------------------ | ------------ |
+| Factory Owner      | Your OWNER address                         | ✅ Yes       |
+| EntryPoint         | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 | ✅ Yes       |
+| Implementation     | Non-zero address                           | ✅ Yes       |
+| Account Prediction | Consistent address                         | ✅ Yes       |
+| Account Creation   | Success, gas ~2.1M                         | ✅ Yes       |
+| Account Owner      | Your OWNER address                         | ✅ Yes       |
+| Idempotency        | Success, gas ~50K                          | ✅ Yes       |
+| Different Salt     | Different address                          | ✅ Yes       |
+| Native Transfer    | Success                                    | ⚠️ Important |
+| Execute Function   | Success                                    | ⚠️ Important |
 
 ---
 
@@ -307,11 +307,13 @@ cast call $FACTORY_BSC_MAINNET \
 ### Issue: Transaction Reverted
 
 **Possible Causes:**
+
 1. Insufficient gas
 2. Wrong parameters
 3. Account already initialized
 
 **Solution:**
+
 ```bash
 # Check account state
 cast call $TEST_ACCOUNT "owner()" --rpc-url $BSC_TESTNET_RPC_URL
@@ -326,8 +328,9 @@ cast call $FACTORY_BSC_TESTNET "owner()" --rpc-url $BSC_TESTNET_RPC_URL
 
 **Solution:**
 Verify you're using the correct:
+
 - Factory address
-- Owner address  
+- Owner address
 - Salt value
 
 ---
