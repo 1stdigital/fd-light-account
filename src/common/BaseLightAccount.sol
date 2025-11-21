@@ -1,18 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.23;
 
-/**
- * MODIFIED by 1st Digital (https://github.com/1stdigital/fd-light-account)
- * Date: November 21, 2025
- * Changes:
- * - Made execute(address,uint256,bytes) function payable (line 43)
- * - Made executeBatch(address[],bytes[]) function payable (line 52)
- * - Made executeBatch(address[],uint256[],bytes[]) function payable (line 68)
- * Purpose: Enable receiving native tokens during transaction execution for 
- *          Coinbase Smart Wallet compatibility
- * Original: https://github.com/alchemyplatform/light-account
- */
-
 import {BaseAccount} from "account-abstraction/core/BaseAccount.sol";
 import {SIG_VALIDATION_FAILED, SIG_VALIDATION_SUCCESS} from "account-abstraction/core/Helpers.sol";
 import {IEntryPoint} from "account-abstraction/interfaces/IEntryPoint.sol";
