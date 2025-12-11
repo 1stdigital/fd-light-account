@@ -37,8 +37,12 @@ For deterministic cross-chain addresses matching other networks, use the officia
 
 ## MultiOwnerLightAccountFactory
 
-Not yet deployed on BSC Testnet.
+| Version | Address                                      | Explorer                                                                                     | Salt | Run                                                                             |
+| ------- | -------------------------------------------- | -------------------------------------------------------------------------------------------- | ---- | ------------------------------------------------------------------------------- |
+| v2.0.0  | `0x2fB513841854dc8D32949b21DDbe1a73fF21f173` | [explorer](https://testnet.bscscan.com/address/0x2fB513841854dc8D32949b21DDbe1a73fF21f173) | N/A  | [tx](https://testnet.bscscan.com/tx/0x36035d04621f66c141368345c78cca53d5c6185fb2c1174d0224829304629609) |
 
 ## MultiOwnerLightAccount
 
-Not yet deployed on BSC Testnet.
+| Version | Address                                      | Explorer                                                                                     | Run                                                                             |
+| ------- | -------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| v2.0.0  | `0x9f61C0F09d3822CBfff7f6FE4124759C928E736A` | [explorer](https://testnet.bscscan.com/address/0x9f61C0F09d3822CBfff7f6FE4124759C928E736A) | [tx](https://testnet.bscscan.com/tx/0x36035d04621f66c141368345c78cca53d5c6185fb2c1174d0224829304629609) |
